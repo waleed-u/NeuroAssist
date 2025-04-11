@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroAssist</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" id="viewDiagnosis"><i class="fas fa-file-medical-alt"></i> My Diagnosis</a></li>
+                <li><a href="#" id="viewHistory"><i class="fas fa-history"></i> Medical History</a></li>
+                <li><a href="#" id="viewReports"><i class="fas fa-file-alt"></i> Reports</a></li>
+                <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search reports...">
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">1</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <span class="username">Patient Name</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Container -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-file-medical-alt"></i>
+                    <div class="stat-info">
+                        <h3>Total Reports</h3>
+                        <p>5</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <h3>Pending Reports</h3>
+                        <p>1</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-info">
+                        <h3>Last Visit</h3>
+                        <p>2024-03-15</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Status -->
+            <div class="current-status">
+                <h2>Current Status</h2>
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Latest EEG Report</h3>
+                        <span class="status-badge pending">Pending Review</span>
+                    </div>
+                    <div class="status-details">
+                        <p><strong>Date:</strong> March 15, 2024</p>
+                        <p><strong>Doctor:</strong> Dr. John Smith</p>
+                        <p><strong>Status:</strong> Under Review</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Reports -->
+            <div class="recent-reports">
+                <h2>Recent Reports</h2>
+                <div class="report-list">
+                    <!-- Report cards will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" id="viewDiagnosisBtn">
+                        <i class="fas fa-file-medical-alt"></i>
+                        View Diagnosis
+                    </button>
+                    <button class="action-btn" id="viewHistoryBtn">
+                        <i class="fas fa-history"></i>
+                        View History
+                    </button>
+                    <button class="action-btn" id="downloadReportsBtn">
+                        <i class="fas fa-download"></i>
+                        Download Reports
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagnosis Modal -->
+    <div class="modal" id="diagnosisModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Diagnosis Details</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="diagnosis-content">
+                    <div class="diagnosis-header">
+                        <h3>Latest Diagnosis</h3>
+                        <span class="date">March 15, 2024</span>
+                    </div>
+                    <div class="diagnosis-details">
+                        <div class="detail-group">
+                            <h4>Summary</h4>
+                            <p>The EEG analysis indicates normal brain activity patterns with no significant abnormalities detected.</p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Recommendations</h4>
+                            <ul>
+                                <li>Regular follow-up every 6 months</li>
+                                <li>Maintain current medication schedule</li>
+                                <li>Report any changes in symptoms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Medical History</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="history-timeline">
+                    <!-- Timeline items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Modal -->
+    <div class="modal" id="reportsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Medical Reports</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="reports-list">
+                    <!-- Report items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/patient-dashboard.js"></script>
+</body>
+</html> 

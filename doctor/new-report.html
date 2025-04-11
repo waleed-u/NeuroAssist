@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Report - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/reports.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroAssist</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="patients.html"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#" id="uploadEEG"><i class="fas fa-upload"></i> Upload EEG</a></li>
+                <li><a href="analysis.html"><i class="fas fa-brain"></i> Analysis</a></li>
+                <li class="active"><a href="#"><i class="fas fa-file-medical-alt"></i> Reports</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patients...">
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <span class="username">Dr. John Doe</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Container -->
+            <div class="report-container">
+                <h1>Generate EEG Diagnostic Report</h1>
+                
+                <div class="report-form">
+                    <div class="form-group">
+                        <label for="patientSelect">Select Patient</label>
+                        <select id="patientSelect" required>
+                            <option value="">Choose a patient...</option>
+                            <!-- Patient options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eegSelect">Select EEG Recording</label>
+                        <select id="eegSelect" required>
+                            <option value="">Choose an EEG recording...</option>
+                            <!-- EEG options will be loaded dynamically based on selected patient -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-primary" id="generateReportBtn">
+                            <i class="fas fa-file-medical-alt"></i> Generate Report
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="report-preview" id="reportPreview">
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="editReportBtn">
+                            <i class="fas fa-edit"></i> Edit Report
+                        </button>
+                        <button type="button" class="btn btn-primary" id="saveReportBtn">
+                            <i class="fas fa-save"></i> Save Report
+                        </button>
+                        <button type="button" class="btn btn-primary" id="printReportBtn">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                    </div>
+                    
+                    <div class="report-content" id="reportContent">
+                        <div class="report-header">
+                            <h1>EEG Diagnostic Report</h1>
+                            <p>NeuroAssist - XAI for Automated EEG Interpretation</p>
+                        </div>
+                        
+                        <div class="patient-info-grid">
+                            <div class="info-item">
+                                <label>Patient Name</label>
+                                <span id="patientName">John Smith</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Patient ID</label>
+                                <span id="patientId">P001</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Date of Birth</label>
+                                <span id="patientDob">01/15/1980</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Gender</label>
+                                <span id="patientGender">Male</span>
+                            </div>
+                            <div class="info-item">
+                                <label>EEG Date</label>
+                                <span id="eegDate">03/15/2024</span>
+                            </div>
+                            <div class="info-item">
+                                <label>EEG Duration</label>
+                                <span id="eegDuration">30 minutes</span>
+                            </div>
+                        </div>
+                        
+                        <div class="eeg-findings">
+                            <h4>EEG Findings</h4>
+                            <ul id="eegFindings">
+                                <li>Background activity: Normal alpha rhythm (8-12 Hz) in posterior regions</li>
+                                <li>No epileptiform discharges observed</li>
+                                <li>Mild slowing in the left temporal region</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="diagnosis-section">
+                            <h4>Diagnosis</h4>
+                            <div class="diagnosis-content" id="diagnosisContent">
+                                Normal EEG with mild left temporal slowing. No evidence of epileptiform activity.
+                            </div>
+                        </div>
+                        
+                        <div class="recommendations">
+                            <h4>Recommendations</h4>
+                            <ul id="recommendations">
+                                <li>Follow-up EEG in 6 months</li>
+                                <li>Continue current medication regimen</li>
+                                <li>Schedule next neurology appointment in 3 months</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="report-footer">
+                            <div class="report-date">
+                                <p>Report Date: <span id="reportDate">03/16/2024</span></p>
+                            </div>
+                            <div class="doctor-signature">
+                                <p>Dr. <span id="doctorName">John Doe</span></p>
+                                <p>Neurologist</p>
+                                <div class="signature-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/new-report.js"></script>
+</body>
+</html> 

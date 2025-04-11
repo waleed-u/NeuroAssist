@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/reports.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroAssist</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="patients.html"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#" id="uploadEEG"><i class="fas fa-upload"></i> Annotate EEG</a></li>
+                <li><a href="analysis.html"><i class="fas fa-brain"></i> Analysis</a></li>
+                <li class="active"><a href="reports.html"><i class="fas fa-file-medical-alt"></i> Reports</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="reportSearch" placeholder="Search reports...">
+                </div>
+                <div class="user-info">
+                    <div class="user-dropdown">
+                        <span class="doctor-name">Dr. <span class="username"></span></span>
+                        <div class="dropdown-content">
+                            <a href="#" id="viewAccount"><i class="fas fa-user"></i> Account Details</a>
+                            <a href="#" id="changePassword"><i class="fas fa-key"></i> Change Password</a>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Reports</h1>
+                <div class="header-actions">
+                    <div class="filter-dropdown">
+                        <select id="filterStatus" aria-label="Filter reports by status">
+                            <option value="all">All Reports</option>
+                            <option value="recent">Recent Reports</option>
+                            <option value="archived">Archived Reports</option>
+                        </select>
+                        <button id="applyFilter" class="btn btn-primary">Apply Filter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Container -->
+            <div class="reports-container">
+                <div class="reports-list" id="reportsList">
+                    <!-- Reports will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Report Modal -->
+    <div class="modal" id="viewReportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Report Details</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-details">
+                    <div class="report-header">
+                        <h3 id="reportTitle">EEG Analysis Report</h3>
+                        <span id="reportDate">Generated on: March 15, 2024</span>
+                    </div>
+                    <div class="patient-info">
+                        <div class="info-item">
+                            <span class="info-label">Patient Name:</span>
+                            <span class="info-value" id="patientName">John Doe</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Patient ID:</span>
+                            <span class="info-value" id="patientId">P001</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Report ID:</span>
+                            <span class="info-value" id="reportId">R001</span>
+                        </div>
+                    </div>
+                    <div class="report-content">
+                        <div class="section">
+                            <h4>Clinical History</h4>
+                            <p id="clinicalHistory">Patient presented with episodes of staring and unresponsiveness...</p>
+                        </div>
+                        <div class="section">
+                            <h4>EEG Findings</h4>
+                            <p id="eegFindings">The EEG recording shows...</p>
+                        </div>
+                        <div class="section">
+                            <h4>Interpretation</h4>
+                            <p id="interpretation">Based on the EEG findings...</p>
+                        </div>
+                        <div class="section">
+                            <h4>Recommendations</h4>
+                            <p id="recommendations">1. Continue current medication...</p>
+                        </div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn btn-primary" id="printReport">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                        <button class="btn btn-secondary" id="downloadReport">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/reports.js"></script>
+</body>
+</html> 

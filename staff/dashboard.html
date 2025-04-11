@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroAssist</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" id="addPatient"><i class="fas fa-user-plus"></i> Add Patient</a></li>
+                <li><a href="#" id="managePatients"><i class="fas fa-users"></i> Manage Patients</a></li>
+                <li><a href="#" id="patientHistory"><i class="fas fa-history"></i> Patient History</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patients...">
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">2</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <span class="username">Staff Member</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Container -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-user-injured"></i>
+                    <div class="stat-info">
+                        <h3>Total Patients</h3>
+                        <p>150</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-file-medical-alt"></i>
+                    <div class="stat-info">
+                        <h3>Total Reports</h3>
+                        <p>320</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <h3>Pending Reports</h3>
+                        <p>12</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Patients -->
+            <div class="recent-patients">
+                <h2>Recent Patients</h2>
+                <div class="patient-list">
+                    <!-- Patient cards will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" id="addPatientBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Add Patient
+                    </button>
+                    <button class="action-btn" id="viewHistoryBtn">
+                        <i class="fas fa-history"></i>
+                        View History
+                    </button>
+                    <button class="action-btn" id="managePatientsBtn">
+                        <i class="fas fa-users"></i>
+                        Manage Patients
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div class="modal" id="addPatientModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Patient</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addPatientForm">
+                    <div class="form-group">
+                        <label for="patientName">Full Name</label>
+                        <input type="text" id="patientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientDOB">Date of Birth</label>
+                        <input type="date" id="patientDOB" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientGender">Gender</label>
+                        <select id="patientGender" required>
+                            <option value="">Select gender...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientContact">Contact Number</label>
+                        <input type="tel" id="patientContact" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientEmail">Email</label>
+                        <input type="email" id="patientEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientAddress">Address</label>
+                        <textarea id="patientAddress" rows="3" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="secondary-btn" id="cancelAddPatient">Cancel</button>
+                        <button type="submit" class="primary-btn">Add Patient</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient History Modal -->
+    <div class="modal" id="patientHistoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Patient History</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="history-filters">
+                    <select id="patientSelect">
+                        <option value="">Select patient...</option>
+                    </select>
+                    <input type="date" id="historyStartDate">
+                    <input type="date" id="historyEndDate">
+                    <button class="primary-btn">Filter</button>
+                </div>
+                <div class="history-list">
+                    <!-- History items will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Patients Modal -->
+    <div class="modal" id="managePatientsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Patients</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="patient-search">
+                    <input type="text" placeholder="Search patients...">
+                </div>
+                <div class="patient-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Last Visit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Patient rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/staff-dashboard.js"></script>
+</body>
+</html> 

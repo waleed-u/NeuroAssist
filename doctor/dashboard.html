@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroAssist</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="patients.html"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#" id="uploadEEG"><i class="fas fa-upload"></i> Annotate EEG</a></li>
+                <li><a href="analysis.html"><i class="fas fa-brain"></i> Analysis</a></li>
+                <li><a href="reports.html"><i class="fas fa-file-medical-alt"></i> Reports</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patients...">
+                </div>
+                <div class="user-info">
+                    <div class="user-dropdown">
+                        <span class="doctor-name">Dr. <span class="username"></span></span>
+                        <div class="dropdown-content">
+                            <a href="#" id="viewAccount"><i class="fas fa-user"></i> Account Details</a>
+                            <a href="#" id="changePassword"><i class="fas fa-key"></i> Change Password</a>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Container -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-user-injured"></i>
+                    <div class="stat-info">
+                        <h3>Total Patients</h3>
+                        <p>150</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <h3>Pending Analysis</h3>
+                        <p>12</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Patients -->
+            <div class="recent-patients">
+                <h2>Recent Patients</h2>
+                <div class="patient-list">
+                    <!-- Patient cards will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" id="uploadEEGQuick">
+                        <i class="fas fa-upload"></i>
+                        Annotate EEG
+                    </button>
+                    <button class="action-btn" id="newReportBtn">
+                        <i class="fas fa-file-medical-alt"></i>
+                        New Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload EEG Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload EEG File</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label for="patientSelect">Select Patient</label>
+                        <select id="patientSelect" required>
+                            <option value="">Choose a patient...</option>
+                            <option value="001">Patient ID: 001 - John Smith</option>
+                            <option value="002">Patient ID: 002 - Sarah Johnson</option>
+                            <option value="003">Patient ID: 003 - Michael Brown</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eegFile">EEG File (.edf)</label>
+                        <input type="file" id="eegFile" accept=".edf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Add any relevant notes..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="secondary-btn" id="cancelUpload">Cancel</button>
+                        <button type="submit" class="primary-btn">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+</body>
+</html> 
