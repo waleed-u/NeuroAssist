@@ -120,8 +120,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - EEG data visualization libraries
 - Medical professionals for domain expertise
 - Open source community
-
-## Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-Project Link: [https://github.com/yourusername/eeg-management-system](https://github.com/yourusername/eeg-management-system) 
