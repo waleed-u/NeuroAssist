@@ -37,8 +37,8 @@ app.options('*', cors());
 // Database connection
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "waleed",
+    user: "zainab",
+    password: "MyS3cur3Pass!",
     database: "neuroassist"
 });
 
