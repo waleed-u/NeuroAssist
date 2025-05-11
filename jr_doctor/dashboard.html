@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jr. Doctor Dashboard - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroSense</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="add-patient.html"><i class="fas fa-user-plus"></i> Add Patient</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patients...">
+                </div>
+                <div class="user-info">
+                    <div class="user-dropdown">
+                        <span class="jr-doctor-name"><span class="username"></span></span>
+                        <div class="dropdown-content">
+                            <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <h2>Welcome to the Jr. Doctor Portal</h2>
+                <p>Manage patients and assist with EEG recordings</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <a href="add-patient.html" class="action-btn">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add New Patient</span>
+                    </a>
+                    <a href="#" class="action-btn" id="viewPatients">
+                        <i class="fas fa-users"></i>
+                        <span>View All Patients</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>New Patient Added</h4>
+                            <p>Ahmed Khan was added to the system</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>EEG Recording Uploaded</h4>
+                            <p>New EEG recording for Fatima Ali</p>
+                            <span class="activity-time">Yesterday</span>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Patient Details Updated</h4>
+                            <p>Contact information updated for Mohammad Saleem</p>
+                            <span class="activity-time">2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient List Modal -->
+    <div class="modal" id="patientListModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>All Patients</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="patient-search">
+                    <input type="text" id="patientSearch" placeholder="Search by name or ID...">
+                    <button title="Search patients"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="patient-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Name</th>
+                                <th>Date of Birth</th>
+                                <th>Gender</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientTableBody">
+                            <!-- Patient data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jr-doctor-dashboard.js"></script>
+</body>
+</html> 

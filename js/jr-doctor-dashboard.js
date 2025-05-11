@@ -150,23 +150,6 @@ async function loadRecentPatients() {
             return;
         }
         
-        // Show a loading indicator in the patient list
-        const patientList = document.getElementById('patientList');
-        if (!patientList) {
-            console.error('Patient list element not found');
-            return;
-        }
-        
-        // Clear existing content (except no-patients message)
-        const existingCards = patientList.querySelectorAll('.patient-card');
-        existingCards.forEach(card => card.remove());
-        
-        // Add loading placeholder
-        const loadingPlaceholder = document.createElement('div');
-        loadingPlaceholder.className = 'loading-placeholder';
-        loadingPlaceholder.innerHTML = '<p>Loading recent patients...</p>';
-        patientList.appendChild(loadingPlaceholder);
-        
         // Fetch recent patients from the API
         const response = await fetch('http://localhost:3000/api/patients/recent', {
             headers: {
@@ -178,16 +161,23 @@ async function loadRecentPatients() {
             throw new Error(`Failed to fetch recent patients: ${response.status}`);
         }
         
-        // Remove loading placeholder
-        loadingPlaceholder.remove();
-        
         const patients = await response.json();
         console.log('Recent patients:', patients); // Debug log
         
+        const patientList = document.getElementById('patientList');
         const noPatients = document.getElementById('noPatients');
         
+        if (!patientList) {
+            console.error('Patient list element not found');
+            return;
+        }
+        
+        // Clear existing list (except the no-patients message)
+        const existingCards = patientList.querySelectorAll('.patient-card');
+        existingCards.forEach(card => card.remove());
+        
         // Check if there are patients
-        if (!patients || patients.length === 0) {
+        if (patients.length === 0) {
             if (noPatients) noPatients.style.display = 'block';
             return;
         }
@@ -195,46 +185,16 @@ async function loadRecentPatients() {
         // Hide the no patients message if we have patients
         if (noPatients) noPatients.style.display = 'none';
         
-        // Validate dates and ensure they're in the correct format
-        const patientsWithValidDates = patients.map(patient => {
-            // Convert string dates to Date objects for proper comparison
-            let lastVisitDate = null;
-            
-            if (patient.lastVisit) {
-                lastVisitDate = new Date(patient.lastVisit);
-                // If date is invalid or too far in the future (which suggests a formatting issue),
-                // fall back to created_at
-                if (isNaN(lastVisitDate) || lastVisitDate.getFullYear() > new Date().getFullYear() + 1) {
-                    console.warn(`Invalid lastVisit date for patient ${patient.id}: ${patient.lastVisit}`);
-                    lastVisitDate = patient.created_at ? new Date(patient.created_at) : new Date();
-                }
-            } else if (patient.created_at) {
-                lastVisitDate = new Date(patient.created_at);
-            } else {
-                lastVisitDate = new Date(); // Fallback to now if no dates available
-            }
-            
-            return {
-                ...patient,
-                lastVisit: lastVisitDate
-            };
-        });
-        
         // Sort patients by lastVisit date in descending order (most recent first)
-        const sortedPatients = patientsWithValidDates.sort((a, b) => {
-            return b.lastVisit - a.lastVisit;
+        const sortedPatients = patients.sort((a, b) => {
+            return new Date(b.lastVisit || 0) - new Date(a.lastVisit || 0);
         });
         
         // Display up to 3 most recent patients
         const recentPatients = sortedPatients.slice(0, 3);
         
         recentPatients.forEach(patient => {
-            // For display, convert back to the original format but with a valid date
-            const patientForDisplay = {
-                ...patient,
-                lastVisit: patient.lastVisit.toISOString()
-            };
-            const patientCard = createPatientCard(patientForDisplay);
+            const patientCard = createPatientCard(patient);
             patientList.appendChild(patientCard);
         });
     } catch (error) {
@@ -244,20 +204,7 @@ async function loadRecentPatients() {
         const noPatients = document.getElementById('noPatients');
         if (noPatients) noPatients.style.display = 'block';
         
-        const patientList = document.getElementById('patientList');
-        if (patientList) {
-            // Remove any loading placeholder
-            const loadingPlaceholder = patientList.querySelector('.loading-placeholder');
-            if (loadingPlaceholder) {
-                loadingPlaceholder.remove();
-            }
-            
-            // Add error message
-            const errorMsg = document.createElement('div');
-            errorMsg.className = 'error-message';
-            errorMsg.innerHTML = '<p>Failed to load recent patients. Please refresh the page to try again.</p>';
-            patientList.appendChild(errorMsg);
-        }
+        showNotification('Failed to load recent patients', 'error');
     }
 }
 
@@ -328,15 +275,10 @@ function createPatientCard(patient) {
     const card = document.createElement('div');
     card.className = 'patient-card';
     
-    // Format the last visit date properly
-    let lastVisitDate = 'N/A';
-    if (patient.lastVisit) {
-        // Make sure we're dealing with a proper date
-        const date = new Date(patient.lastVisit);
-        if (!isNaN(date.getTime())) {
-            lastVisitDate = date.toLocaleDateString();
-        }
-    }
+    // Format the last visit date or use 'N/A' if not available
+    const lastVisitDate = patient.lastVisit 
+        ? new Date(patient.lastVisit).toLocaleDateString() 
+        : 'N/A';
     
     card.innerHTML = `
         <div class="patient-info">
@@ -345,17 +287,9 @@ function createPatientCard(patient) {
             <p>Last Visit: ${lastVisitDate}</p>
         </div>
         <div class="patient-actions">
-            <button class="view-details-btn" data-patient-id="${patient.id}">View Details</button>
+            <button onclick="viewPatientDetails('${patient.id}')">View Details</button>
         </div>
     `;
-    
-    // Add event listener directly to the button - this prevents issues with inline onclick
-    const viewButton = card.querySelector('.view-details-btn');
-    viewButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        viewPatientDetails(patient.id);
-    });
-    
     return card;
 }
 
@@ -512,29 +446,11 @@ async function viewPatientDetails(patientId) {
             eegTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No EEG recordings found</td></tr>';
         }
 
-        // Show modal - fixed Bootstrap modal initialization
+        // Show modal
         const patientDetailsModal = document.getElementById('patientDetailsModal');
         if (patientDetailsModal) {
-            try {
-                // Check if Bootstrap is loaded
-                if (typeof bootstrap === 'undefined') {
-                    console.error('Bootstrap is not loaded. Using fallback.');
-                    // Fallback to manual display if Bootstrap is not available
-                    patientDetailsModal.style.display = 'block';
-                    patientDetailsModal.classList.add('show');
-                    document.body.classList.add('modal-open');
-                } else {
-                    // Use Bootstrap Modal API
-                    const modal = new bootstrap.Modal(patientDetailsModal);
-                    modal.show();
-                }
-            } catch (modalError) {
-                console.error('Error showing modal:', modalError);
-                // Fallback method
-                patientDetailsModal.style.display = 'block';
-                patientDetailsModal.classList.add('show');
-                document.body.classList.add('modal-open');
-            }
+            const modal = new bootstrap.Modal(patientDetailsModal);
+            modal.show();
         } else {
             console.error('Patient details modal not found');
             showNotification('Error displaying patient details', 'error');

@@ -25,13 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.success) {
                 // Store token in localStorage
                 localStorage.setItem('token', response.token);
-                // Store user info in session storage
+                
+                // Store user info in both localStorage and sessionStorage for better persistence
+                const userData = {
+                    id: response.user.id,
+                    username: response.user.username,
+                    fullName: response.user.fullName,
+                    userType: response.user.userType
+                };
+                
+                localStorage.setItem('user', JSON.stringify(userData));
+                sessionStorage.setItem('user', JSON.stringify(userData));
                 sessionStorage.setItem('userType', response.user.userType);
                 sessionStorage.setItem('username', response.user.username);
                 sessionStorage.setItem('fullName', response.user.fullName);
                 
                 showSuccess('Login successful! Redirecting...');
-                // Redirect based on user type
+                
+                // Redirect based on user type after a short delay
                 setTimeout(() => {
                     redirectUser(response.user.userType);
                 }, 1000);
@@ -89,19 +100,27 @@ async function loginUser(username, password, userType) {
 }
 
 function redirectUser(userType) {
+    console.log('Redirecting user to dashboard for type:', userType);
+    
+    let dashboardUrl;
+    
     switch(userType) {
         case 'patient':
-            window.location.href = 'patient/dashboard.html';
+            dashboardUrl = 'patient/dashboard.html';
             break;
-        case 'doctor':
-            window.location.href = 'doctor/dashboard.html';
+        case 'consultant':
+            dashboardUrl = 'consultant/dashboard.html';
             break;
-        case 'staff':
-            window.location.href = 'staff/dashboard.html';
+        case 'jr_doctor':
+            dashboardUrl = 'jr_doctor/dashboard.html';
             break;
         default:
             showError('Invalid user type');
+            return;
     }
+    
+    console.log('Redirecting to:', dashboardUrl);
+    window.location.href = dashboardUrl;
 }
 
 function showError(message) {

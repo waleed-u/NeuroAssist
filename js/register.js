@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             patientIdGroup.style.display = 'block';
             document.getElementById('patientId').required = true;
             document.getElementById('licenseNumber').required = false;
-        } else if (selectedType === 'doctor') {
+        } else if (selectedType === 'consultant') {
             licenseNumberGroup.style.display = 'block';
             document.getElementById('licenseNumber').required = true;
             document.getElementById('patientId').required = false;
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             formData.patientId = patientId;
-        } else if (formData.userType === 'doctor') {
+        } else if (formData.userType === 'consultant') {
             const licenseNumber = document.getElementById('licenseNumber').value.trim();
             if (!licenseNumber) {
                 showError('License number is required');
