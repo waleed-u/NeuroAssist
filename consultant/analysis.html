@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEG Analysis - NeuroAssist</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/analysis.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>NeuroSense</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="patients.html"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#" id="uploadEEG"><i class="fas fa-upload"></i> Annotate EEG</a></li>
+                <li class="active"><a href="analysis.html"><i class="fas fa-brain"></i> Analysis</a></li>
+                <li><a href="#"><i class="fas fa-file-medical-alt"></i> Reports</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="analysisSearch" placeholder="Search analysis...">
+                </div>
+                <div class="user-info">
+                    <div class="user-dropdown">
+                        <span class="doctor-name">Dr. <span class="username"></span></span>
+                        <div class="dropdown-content">
+                            <a href="account.html" id="viewAccount"><i class="fas fa-user"></i> Account Details</a>
+                            <a href="change-password.html" id="changePassword"><i class="fas fa-key"></i> Change Password</a>
+                            <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>EEG Analysis</h1>
+                <div class="header-actions">
+                    <div class="filter-dropdown">
+                        <button class="filter-btn">
+                            <i class="fas fa-filter"></i> Filter
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="filter-content">
+                            <div class="filter-group">
+                                <label for="dateFilter">Date Range</label>
+                                <select id="dateFilter" aria-label="Filter by date range">
+                                    <option value="">All Time</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                            <button class="apply-filter">Apply Filters</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Sections -->
+            <div class="analysis-sections">
+                <!-- Pending Analysis Section -->
+                <div class="analysis-section">
+                    <h2>Pending Analysis</h2>
+                    <div class="analysis-container">
+                        <div class="analysis-list" id="pendingAnalysisList">
+                            <!-- Pending analysis cards will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Analysis Section -->
+                <div class="analysis-section">
+                    <h2>Completed Analysis</h2>
+                    <div class="analysis-container">
+                        <div class="analysis-list" id="completedAnalysisList">
+                            <!-- Completed analysis cards will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Details Modal -->
+    <div class="modal" id="analysisModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Analysis Details</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="patient-profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="modalPatientName">John Doe</h3>
+                            <p id="modalPatientId">ID: P001</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-info">
+                    <div class="info-section">
+                        <h4>EEG Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Date Recorded</label>
+                                <p id="eegDate">2024-03-15</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Duration</label>
+                                <p id="eegDuration">30 minutes</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Type</label>
+                                <p id="eegType">Routine EEG</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Status</label>
+                                <p id="eegStatus" class="status pending">Pending Review</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="model-predictions">
+                    <h4>Model Predictions</h4>
+                    <div class="prediction-list">
+                        <div class="prediction-item">
+                            <div class="prediction-header">
+                                <h5>Epileptiform Activity</h5>
+                                <span class="confidence high">92% Confidence</span>
+                            </div>
+                            <div class="prediction-details">
+                                <p>Model detected spike-wave complexes in channels F3-C3, F4-C4</p>
+                                <div class="xai-explanation">
+                                    <h6>XAI Explanation</h6>
+                                    <p>Model identified 3.5 Hz spike-wave discharges with frontal predominance, characteristic of absence seizures.</p>
+                                    <img src="../img/sample-heatmap.jpg" alt="XAI Heatmap" class="xai-image">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="prediction-item">
+                            <div class="prediction-header">
+                                <h5>Abnormal Slowing</h5>
+                                <span class="confidence medium">76% Confidence</span>
+                            </div>
+                            <div class="prediction-details">
+                                <p>Model detected theta slowing in the left temporal region</p>
+                                <div class="xai-explanation">
+                                    <h6>XAI Explanation</h6>
+                                    <p>Left temporal theta activity (4-7 Hz) potentially indicating focal dysfunction.</p>
+                                    <img src="../img/sample-heatmap2.jpg" alt="XAI Heatmap" class="xai-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="doctor-action">
+                    <h4>Doctor's Assessment</h4>
+                    <div class="assessment-form">
+                        <div class="form-group">
+                            <label for="doctorAssessment">Assessment Notes</label>
+                            <textarea id="doctorAssessment" rows="3" placeholder="Add your assessment of the EEG findings..."></textarea>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn view-eeg">
+                                <i class="fas fa-eye"></i> View Full EEG
+                            </button>
+                            <button class="action-btn reject">
+                                <i class="fas fa-times"></i> Reject Analysis
+                            </button>
+                            <button class="action-btn modify">
+                                <i class="fas fa-edit"></i> Modify Analysis
+                            </button>
+                            <button class="action-btn approve">
+                                <i class="fas fa-check"></i> Approve Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/analysis.js"></script>
+</body>
+</html> 
